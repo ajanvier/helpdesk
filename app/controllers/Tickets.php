@@ -27,13 +27,18 @@ class Tickets extends \_DefaultController {
 	}
 
     public function frm($id=NULL) {
-        $categories = DAO::getAll("Categorie");
-        $this->loadView("ticket/vAdd", array(
-            "ticketTypes" => array(
-                "incident" => "Incident"
-            ),
-            "categories" => $categories
-        ));
+        if(Auth::isAuth()) {
+            $categories = DAO::getAll("Categorie");
+            $this->loadView("ticket/vAdd", array(
+                "ticketTypes" => array(
+                    "incident" => "Incident"
+                ),
+                "categories" => $categories,
+                "currentUser" => Auth::getUser()
+            ));
+        }
+        else
+            $this->loadView("vNotAuth");
     }
 
     public function add($id=NULL) {
