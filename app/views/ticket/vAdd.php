@@ -27,13 +27,13 @@
         </div>
         <div class="form-group">
             <label for="utilisateur">Utilisateur :</label>
-            <br /><input type="text" class="form-control" id="utilisateur" name="utilisateur" readonly />
+            <br /><input type="text" class="form-control" id="utilisateur" name="utilisateur" readonly value="<?php echo $currentUser->getLogin(); ?>" />
             <br />
             <label for="datecreation">Date de création :</label>
             <br /><input type="text" class="form-control" id="datecreation" name="datecreation" readonly value="<?php echo (new DateTime())->format('d-m-Y H:i:s'); ?>" />
             <br />
             <label for="statut">Statut :</label>
-            <br /><input type="text" class="form-control" id="statut" name="statut" readonly />
+            <br /><input type="text" class="form-control" id="statut" name="statut" readonly value="Nouveau" />
         </div>
         <div class="form-group">
             <input type="submit" value="Valider" class="btn btn-default">
