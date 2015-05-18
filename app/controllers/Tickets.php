@@ -1,4 +1,11 @@
 <?php
+/**
+ * Gestion des tickets
+ * @author jcheron
+ * @version 1.1
+ * @package helpdesk.controllers
+ */
+
 class Tickets extends \_DefaultController {
 	public function Tickets(){
 		$this->title="Tickets";
