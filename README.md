@@ -7,4 +7,4 @@ A Helpdesk Application for educational purposes using a micro-framework
 - [x] read the project specifications : [Helpdesk project specifications](http://slamwiki.kobject.net/php-rt/projets/projet-2015/)
 - [x] consult the micro-framework api : [documentation](http://api.kobject.net/micro-framework/)
 
-Forké par Samy SLAMA et Aurélien JANVIER
+Forked by Samy SLAMA and Aurélien JANVIER
