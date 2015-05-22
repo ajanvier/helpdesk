@@ -41,7 +41,19 @@ class Tickets extends \_DefaultController {
     public function frm($id=NULL) {
         if(Auth::isAuth()) {
             if(!empty($id) && Auth::isAdmin()) {
-                $this->loadView("ticket/vEdit");
+                $ticket = DAO::getOne("Ticket", $id[0]);
+                $categories = DAO::getAll("Categorie");
+                $statuts = DAO::getAll("Statut");
+
+                $this->loadView("ticket/vEdit", array(
+                    "ticketTypes" => Tickets::getTypes(),
+                    "categories" => $categories,
+                    "ticket" => $ticket,
+                    "statuts" => $statuts
+                ));
+            }
+            elseif(!empty($id) && !Auth::isAdmin()) {
+                $this->messageDanger("Vous devez être administrateur pour accéder à cette page.");
             }
             else {
                 $categories = DAO::getAll("Categorie");
@@ -53,24 +65,52 @@ class Tickets extends \_DefaultController {
             }
         }
         else
-            $this->loadView("vNotAuth");
+            $this->messageDanger("Vous devez être connecté pour accéder à cette page.");
     }
 
     public function add($id=NULL) {
-        if(Auth::isAuth() && !empty($_POST['type']) && !empty($_POST['categorie']) && !empty($_POST['titre']) && !empty($_POST['description'])) {
-            $ticket = new Ticket();
-            $ticket->setUser(Auth::getUser());
-            $ticket->setStatut(DAO::getOne("Statut",1));
-            if(in_array($_POST['type'], Tickets::getTypes())) {
-                $ticket->setType($_POST['type']);
+        if(Auth::isAuth()) {
+            if(!empty($_POST['type']) && !empty($_POST['categorie']) && !empty($_POST['titre']) && !empty($_POST['description'])) {
+                $ticket = new Ticket();
+                $ticket->setUser(Auth::getUser());
+                $ticket->setStatut(DAO::getOne("Statut",1));
+                if(in_array($_POST['type'], Tickets::getTypes())) {
+                    $ticket->setType($_POST['type']);
+                }
+                $ticket->setCategorie(DAO::getOne("Categorie",$_POST['categorie']));
+                $ticket->setTitre($_POST['titre']);
+                $ticket->setDescription($_POST['description']);
+
+                DAO::insert($ticket);
+
+                $this->messageSuccess("Le nouveau ticket a bien été crée !");
             }
-            $ticket->setCategorie(DAO::getOne("Categorie",$_POST['categorie']));
-            $ticket->setTitre($_POST['titre']);
-            $ticket->setDescription($_POST['description']);
-
-            DAO::insert($ticket);
-
-            echo "Le nouveau ticket a bien été crée !";
+            else
+                $this->messageWarning("Vous devez remplir tous les champs pour créer un ticket !");
         }
+        else
+            $this->messageDanger("Vous devez être connecté pour accéder à cette page.");
+    }
+
+    public function edit($id) {
+        if(Auth::isAuth() && Auth::isAdmin()) {
+            if(!empty($_POST['type']) && !empty($_POST['categorie']) && !empty($_POST['titre']) && !empty($_POST['description']) && !empty($_POST['statut'])) {
+                $ticket = DAO::getOne("Ticket", $id[0]);
+
+                $ticket->setStatut(DAO::getOne("Statut",$_POST['statut']));
+                $ticket->setType($_POST['type']);
+                $ticket->setCategorie(DAO::getOne("Categorie",$_POST['categorie']));
+                $ticket->setTitre($_POST['titre']);
+                $ticket->setDescription($_POST['description']);
+
+                DAO::update($ticket);
+
+                $this->messageSuccess("Le ticket a bien été modifié !");
+            }
+            else
+                $this->messageWarning("Vous devez remplir tous les champs pour éditer ce ticket !");
+        }
+        else
+            $this->messageDanger("Vous devez être administrateur pour accéder à cette page.");
     }
 }
