@@ -7,10 +7,15 @@
  */
 
 class Tickets extends \_DefaultController {
+
 	public function Tickets(){
 		$this->title="Tickets";
 		$this->model="Ticket";
 	}
+
+    private static function getTypes() {
+        return ["incident" => "Incident", "demande" => "Demande"];
+    }
 
 	public function messages($id){
 		$ticket=DAO::getOne("Ticket", $id[0]);
@@ -35,20 +40,37 @@ class Tickets extends \_DefaultController {
 
     public function frm($id=NULL) {
         if(Auth::isAuth()) {
-            $categories = DAO::getAll("Categorie");
-            $this->loadView("ticket/vAdd", array(
-                "ticketTypes" => array(
-                    "incident" => "Incident"
-                ),
-                "categories" => $categories,
-                "currentUser" => Auth::getUser()
-            ));
+            if(!empty($id) && Auth::isAdmin()) {
+                $this->loadView("ticket/vEdit");
+            }
+            else {
+                $categories = DAO::getAll("Categorie");
+                $this->loadView("ticket/vAdd", array(
+                    "ticketTypes" => Tickets::getTypes(),
+                    "categories" => $categories,
+                    "currentUser" => Auth::getUser()
+                ));
+            }
         }
         else
             $this->loadView("vNotAuth");
     }
 
     public function add($id=NULL) {
+        if(Auth::isAuth() && !empty($_POST['type']) && !empty($_POST['categorie']) && !empty($_POST['titre']) && !empty($_POST['description'])) {
+            $ticket = new Ticket();
+            $ticket->setUser(Auth::getUser());
+            $ticket->setStatut(DAO::getOne("Statut",1));
+            if(in_array($_POST['type'], Tickets::getTypes())) {
+                $ticket->setType($_POST['type']);
+            }
+            $ticket->setCategorie(DAO::getOne("Categorie",$_POST['categorie']));
+            $ticket->setTitre($_POST['titre']);
+            $ticket->setDescription($_POST['description']);
 
+            DAO::insert($ticket);
+
+            echo "Le nouveau ticket a bien été crée !";
+        }
     }
 }
