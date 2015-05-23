@@ -1,4 +1,4 @@
-<form method="post" action="Tickets/add" style="padding: 0% 20%;">
+<form method="post" action="Tickets/add">
     <fieldset>
         <legend>Créer un ticket</legend>
         <div class="form-group">
