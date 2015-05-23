@@ -1,3 +1,9 @@
+# PhpStorm project files
+.idea
+
+# Configuration du framework
+app/config.php
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -48,4 +54,3 @@ Temporary Items
 .settings/org.eclipse.wst.jsdt.ui.superType.container
 .settings/org.eclipse.wst.jsdt.ui.superType.name
 .project
-.idea

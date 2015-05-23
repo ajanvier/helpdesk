@@ -1,4 +1,4 @@
-<form method="post" action="Tickets/add">
+<form method="post" action="Tickets/add" style="padding: 0% 20%;">
     <fieldset>
         <legend>Créer un ticket</legend>
         <div class="form-group">
@@ -25,19 +25,19 @@
             <br />
             <textarea id="description" class="form-control" name="description"></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="width:70%; float:left;">
             <label for="utilisateur">Utilisateur :</label>
             <br /><input type="text" class="form-control" id="utilisateur" name="utilisateur" readonly value="<?php echo $currentUser->getLogin(); ?>" />
             <br />
             <label for="datecreation">Date de création :</label>
-            <br /><input type="text" class="form-control" id="datecreation" name="datecreation" readonly value="<?php echo (new DateTime())->format('d-m-Y H:i:s'); ?>" />
+            <br /><input type="text" class="form-control" id="datecreation" name="datecreation" readonly value="<?php echo (new DateTime())->format('d-m-Y H:i:s'); ?>" style="width:50%;" />
             <br />
             <label for="statut">Statut :</label>
-            <br /><input type="text" class="form-control" id="statut" name="statut" readonly value="Nouveau" />
+            <br /><input type="text" class="form-control" id="statut" name="statut" readonly value="Nouveau" style="width:50%;" />
         </div>
-        <div class="form-group">
-            <input type="submit" value="Valider" class="btn btn-default">
-            <a class="btn btn-default" href="<?php echo $config["siteUrl"]?>Tickets">Annuler</a>
+        <div class="form-group" style="width:30%; float:right; padding-top:150px">
+            <input type="submit" value="Valider" class="btn btn-default" style="width:100%;" />
+            <br /><a class="btn btn-default" href="<?php echo $config["siteUrl"]?>Tickets" style="width:100%;">Annuler</a>
         </div>
     </fieldset>
 </form>
