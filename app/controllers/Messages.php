@@ -11,4 +11,9 @@ class Messages extends \_DefaultController {
 		$this->title="Messages";
 		$this->model="Message";
 	}
+
+    public function delete($id) {
+        parent::delete($id);
+        $this->forward("Tickets", "messages", $id);
+    }
 }

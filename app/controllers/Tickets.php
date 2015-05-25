@@ -23,7 +23,8 @@ class Tickets extends \_DefaultController {
 			$messages=DAO::getOneToMany($ticket, "messages");
             $this->loadView("ticket/vMessages", array(
                 "ticket" => $ticket,
-                "messages" => $messages
+                "messages" => $messages,
+                "currentUser" => Auth::getUser()
             ));
 
 			echo JsUtils::execute("$(function () {
