@@ -55,9 +55,11 @@ class Auth {
 								Connexion en tant que... <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="defaultC/asAdmin"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;Administrateur</a></li>
-								<li><a href="defaultC/asUser"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Utilisateur</a></li>
-							</ul>
+								<li><a href="defaultC/asAdmin"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;Administrateur</a></li>';
+            foreach(DAO::getAll("User", "admin=0") as $user) {
+			    $infoUser .= '<li><a href="defaultC/asUser/' . $user->getId(). '"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;' . $user->getLogin() .'</a></li>';
+			}
+			$infoUser .= '</ul>
 						</div>';
 		}
 		return $infoUser;

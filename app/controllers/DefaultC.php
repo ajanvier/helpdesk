@@ -39,8 +39,8 @@ class DefaultC extends \BaseController {
 	/**
 	 * Connecte le premier utilisateur (non admin) trouvé dans la BDD
 	 */
-	public function asUser(){
-		$_SESSION["user"]=DAO::getOne("User", "admin=0");
+	public function asUser($id=null){
+		$_SESSION["user"]=DAO::getOne("User", "admin=0" . ((!empty($id)) ? " and id=" . $id[0] : ""));
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => true
 		);
