@@ -33,7 +33,7 @@ class Messages extends \_DefaultController {
         }
     }
 
-    public function update($id) {
+    public function edit($id) {
         if(RequestUtils::isPost()){
             $className=$this->model;
             $object=DAO::getOne("Message",$id[0]);

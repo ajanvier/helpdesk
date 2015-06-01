@@ -27,7 +27,7 @@
                 <br /><br />
                 <div class="showContenu"><?php echo $msg->getContenu(); ?></div>
                 <div style="display: none;" class="editContenu">
-                    <form method="post" action="messages/update/<?php echo $msg->getId(); ?>">
+                    <form method="post" action="messages/edit/<?php echo $msg->getId(); ?>">
                         <textarea name="contenu" class="form-control"><?php echo $msg->getContenu(); ?></textarea>
                         <br /><br />
                         <input type="submit" class="btn btn-default" value="Modifier le message" />
