@@ -30,13 +30,13 @@
                     <form method="post" action="messages/edit/<?php echo $msg->getId(); ?>">
                         <textarea name="contenu" class="form-control"><?php echo $msg->getContenu(); ?></textarea>
                         <br /><br />
-                        <input type="submit" class="btn btn-default" value="Modifier le message" />
+                        <input type="submit" class="btn btn-default" value="Modifier le message" /> <input type="button" class="btn btn-default" onclick="$(this).parent().parent().hide();$('div').prev('.showContenu:last').show();" value="Annuler" />
                     </form>
                 </div>
             <?php if($msg->getUser() == $currentUser && $msg == end($messages)) { ?>
                 <div style="float:right;">
                     <br />
-                    <a class="btn btn-primary btn-xs" href="javascript:void(0);" onclick="console.log($('div').prev('.showContenu:last'));$('div').prev('.showContenu:last').hide();$('div').prev('.editContenu:last').show();" style="width:150px;">Éditer</a>
+                    <a class="btn btn-primary btn-xs" href="javascript:void(0);" onclick="$('div').prev('.showContenu:last').hide();$('div').prev('.editContenu:last').show();" style="width:150px;">Éditer</a>
                     <a class="btn btn-warning btn-xs" href="<?php echo $config["siteUrl"]?>messages/delete/<?php echo $msg->getId(); ?>" style="width:150px;">Supprimer</a>
                 </div>
             <?php } ?>
