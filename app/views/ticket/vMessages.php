@@ -25,11 +25,18 @@
             <td data-content="<?php echo (new DateTime($msg->getDate()))->format('d/m/Y - H:i:s'); ?>" data-container="body" data-toggle="popover" data-placement="bottom">
                 <strong><?php echo $msg->getUser(); ?></strong>
                 <br /><br />
-                <?php echo $msg->getContenu(); ?>
-            <?php if($msg->getUser() == $currentUser) { ?>
+                <div class="showContenu"><?php echo $msg->getContenu(); ?></div>
+                <div style="display: none;" class="editContenu">
+                    <form method="post" action="messages/update/<?php echo $msg->getId(); ?>">
+                        <textarea name="contenu" class="form-control"><?php echo $msg->getContenu(); ?></textarea>
+                        <br /><br />
+                        <input type="submit" class="btn btn-default" value="Modifier le message" />
+                    </form>
+                </div>
+            <?php if($msg->getUser() == $currentUser && $msg == end($messages)) { ?>
                 <div style="float:right;">
                     <br />
-                    <a class="btn btn-primary btn-xs" href="<?php echo $config["siteUrl"]?>messages/edit/<?php echo $msg->getId(); ?>" style="width:150px;">Éditer</a>
+                    <a class="btn btn-primary btn-xs" href="javascript:void(0);" onclick="console.log($('div').prev('.showContenu:last'));$('div').prev('.showContenu:last').hide();$('div').prev('.editContenu:last').show();" style="width:150px;">Éditer</a>
                     <a class="btn btn-warning btn-xs" href="<?php echo $config["siteUrl"]?>messages/delete/<?php echo $msg->getId(); ?>" style="width:150px;">Supprimer</a>
                 </div>
             <?php } ?>
@@ -38,3 +45,11 @@
     <?php } ?>
     </tbody>
 </table>
+<?php if($ticket->getStatut()->getId() < 5) { ?>
+<hr />
+<form method="post" action="Messages/add/<?php echo $ticket->getId(); ?>" style="text-align: center;">
+    <textarea name="contenu" class="form-control"></textarea>
+    <br /><br />
+    <input type="submit" class="btn btn-default" value="Envoyer le message" />
+</form>
+<?php } ?>

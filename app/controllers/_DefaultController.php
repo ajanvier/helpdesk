@@ -98,27 +98,32 @@ class _DefaultController extends \BaseController {
 	 * @see _DefaultController::setValuesToObject()
 	 */
 	public function update(){
-		if(RequestUtils::isPost()){
-			$className=$this->model;
-			$object=new $className();
-			$this->setValuesToObject($object);
-			if($_POST["id"]){
-				try{
-					DAO::update($object);
-					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
-				}catch(Exception $e){
-					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
-				}
-			}else{
-				try{
-					DAO::insert($object);
-					$msg=new DisplayedMessage("Instance de ".$this->model." `{$object->toString()}` ajoutée");
-				}catch(Exception $e){
-					$msg=new DisplayedMessage("Impossible d'ajouter l'instance de ".$this->model,"danger");
-				}
-			}
-			$this->forward(get_class($this),"index",$msg);
-		}
+        if(Auth::isAdmin()) {
+            if(RequestUtils::isPost()){
+                $className=$this->model;
+                $object=new $className();
+                $this->setValuesToObject($object);
+                if(!empty($_POST["id"])){
+                    try{
+                        DAO::update($object);
+                        $msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+                    }catch(Exception $e){
+                        $msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
+                    }
+                }else{
+                    try{
+                        DAO::insert($object);
+                        $msg=new DisplayedMessage("Instance de ".$this->model." `{$object->toString()}` ajoutée");
+                    }catch(Exception $e){
+                        $msg=new DisplayedMessage("Impossible d'ajouter l'instance de ".$this->model,"danger");
+                    }
+                }
+                $this->forward(get_class($this),"index",$msg);
+            }
+        }
+        else {
+            $this->messageDanger("Vous n'avez pas l'autorisation d'accéder à cette page.");
+        }
 	}
 
 	/**
@@ -126,18 +131,23 @@ class _DefaultController extends \BaseController {
 	 * @param int $id
 	 */
 	public function delete($id){
-		try{
-			$object=DAO::getOne($this->model, $id[0]);
-			if($object!==NULL){
-				DAO::delete($object);
-				$msg=new DisplayedMessage($this->model." `{$object->toString()}` supprimé(e)");
-			}else{
-				$msg=new DisplayedMessage($this->model." introuvable","warning");
-			}
-		}catch(Exception $e){
-			$msg=new DisplayedMessage("Impossible de supprimer l'instance de ".$this->model,"danger");
-		}
-		$this->forward(get_class($this),"index",$msg);
+        if(Auth::isAdmin()) {
+            try{
+                $object=DAO::getOne($this->model, $id[0]);
+                if($object!==NULL){
+                    DAO::delete($object);
+                    $msg=new DisplayedMessage($this->model." `{$object->toString()}` supprimé(e)");
+                }else{
+                    $msg=new DisplayedMessage($this->model." introuvable","warning");
+                }
+            }catch(Exception $e){
+                $msg=new DisplayedMessage("Impossible de supprimer l'instance de ".$this->model,"danger");
+            }
+            $this->forward(get_class($this),"index",$msg);
+        }
+        else {
+            $this->messageDanger("Vous n'avez pas l'autorisation d'accéder à cette page.");
+        }
 	}
 	/* (non-PHPdoc)
 	 * @see BaseController::initialize()
