@@ -1,7 +1,7 @@
 <header class="panel panel-primary">
     <section class="panel-heading clearfix">
-        <div class="panel-title" style="float:left;"><h2><?php echo $ticket->getTitre(); ?></h2></div>
-        <div style="float:right;"><h3><?php echo $ticket->getCategorie()->getLibelle(); ?></h3></div>
+        <div class="panel-title" style="float:left;font-weight: bold;"><?php echo $ticket->getTitre(); ?></div>
+        <div style="float:right;"><?php echo $ticket->getCategorie()->getLibelle(); ?></div>
     </section>
     <section class="panel-body">
         <?php echo nl2br($ticket->getDescription()); ?>

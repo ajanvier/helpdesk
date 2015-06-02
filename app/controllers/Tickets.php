@@ -27,11 +27,13 @@ class Tickets extends \_DefaultController {
             $objects = DAO::getAll($this->model, (Auth::isAdmin()) ? "" : "idUser=" . Auth::getUser()->getId());
 
             echo "<table class='table table-striped'>";
-            echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+            echo "<thead><tr><th>Titre</th><th>Statut</th><th>Crée le</th></tr></thead>";
             echo "<tbody>";
             foreach ($objects as $object){
                 echo "<tr>";
-                echo "<td><a href='" . $config["siteUrl"].$baseHref . "/messages/" . $object->getId() . "'>".$object->toString()."</a></td>";
+                echo "<td><a href='" . $config["siteUrl"].$baseHref . "/messages/" . $object->getId() . "'>".$object->getTitre()."</a></td>";
+                echo "<td style='width:10%;'>".$object->getStatut()."</td>";
+                echo "<td style='width:20%;'>".(new DateTime($object->getDateCreation()))->format('d/m/Y H:i:s')."</td>";
                 if(Auth::isAdmin()) {
                     echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='" . $baseHref . "/frm/" . $object->getId() . "'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>" .
                         "<td class='td-center'><a class='btn btn-warning btn-xs' href='" . $baseHref . "/delete/" . $object->getId() . "'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
@@ -52,24 +54,27 @@ class Tickets extends \_DefaultController {
     }
 
 	public function messages($id) {
-		$ticket=DAO::getOne($this->model, $id[0]);
-        if(empty($ticket))
-            $this->messageDanger("Ce ticket n'existe pas.");
-        elseif(!Auth::isAdmin() && $ticket->getUser() != Auth::getUser())
-            $this->messageDanger("Vous n'avez pas l'autorisation de consulter les messages de ce ticket.");
-        else {
-			$messages=DAO::getOneToMany($ticket, "messages");
-            $this->loadView("ticket/vMessages", array(
-                "ticket" => $ticket,
-                "messages" => $messages,
-                "currentUser" => Auth::getUser()
-            ));
+        if(Auth::isAuth()) {
+            $ticket = DAO::getOne($this->model, $id[0]);
+            if (empty($ticket))
+                $this->messageDanger("Ce ticket n'existe pas.");
+            elseif (!Auth::isAdmin() && $ticket->getUser() != Auth::getUser())
+                $this->messageDanger("Vous n'avez pas l'autorisation de consulter les messages de ce ticket.");
+            else {
+                $messages = DAO::getOneToMany($ticket, "messages");
+                $this->loadView("ticket/vMessages", array(
+                    "ticket" => $ticket,
+                    "messages" => $messages,
+                    "currentUser" => Auth::getUser()
+                ));
 
-			echo JsUtils::execute("$(function () {
+                echo JsUtils::execute("$(function () {
 					  $('[data-toggle=\"popover\"]').popover({'trigger':'hover','html':true})
 				})");
+            }
         }
-
+        else
+            $this->messageDisconnected();
 	}
 
     public function frm($id=NULL) {

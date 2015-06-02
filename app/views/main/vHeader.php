@@ -27,13 +27,21 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="collapse-mainNav">
 				<ul class="nav navbar-nav navbar-nav">
-					<li id='mainNav-navzone-1-li-1'><a id='mainNav-navzone-1-link-1'
-						href="<?php echo $config["siteUrl"]?>tickets/frm">Créer un ticket</a></li>
-					<li id='mainNav-navzone-1-li-2'><a id='mainNav-navzone-1-link-2'
-						href="<?php echo $config["siteUrl"]?>tickets">Tickets</a></li>
-					<li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
-						href="<?php echo $config["siteUrl"]?>faqs">Foire aux questions</a></li>
-                    <li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3' href="<?php echo $config["siteUrl"]?>defaultC/test">Page de test</a></li>
+                    <?php if(Auth::isAuth()) { ?>
+                        <li id='mainNav-navzone-1-li-1'><a id='mainNav-navzone-1-link-1'
+                            href="<?php echo $config["siteUrl"]?>tickets">Tickets</a></li>
+                        <?php if(!Auth::isAdmin()) { ?>
+                            <li id='mainNav-navzone-1-li-2'><a id='mainNav-navzone-1-link-2'
+                                                               href="<?php echo $config["siteUrl"]?>tickets/frm">Créer un ticket</a></li>
+                        <?php } ?>
+                        <li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
+                            href="<?php echo $config["siteUrl"]?>faqs">Foire aux questions</a></li>
+                        <?php if(Auth::isAdmin()) { ?>
+                            <li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
+                                                               href="<?php echo $config["siteUrl"]?>faqs/frm">Ajouter un article</a></li>
+                        <?php } ?>
+                        <li id='mainNav-navzone-1-li-4'><a id='mainNav-navzone-1-link-4' href="<?php echo $config["siteUrl"]?>defaultC/test">Page de test</a></li>
+                    <?php } ?>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
