@@ -17,8 +17,17 @@ class DefaultC extends \BaseController {
 
         if(Auth::isAdmin())
 		    $this->loadView("main/vAdmin");
-        elseif(Auth::isAuth())
-            $this->loadView("main/vUser");
+        elseif(Auth::isAuth()) {
+            $currentUser = Auth::getUser();
+            $this->loadView("main/vUser", array(
+                "nbTickets" => [
+                    "nouveau" => count(DAO::getAll("Ticket", "idUser=" . $currentUser->getId() . " and idStatut=1")),
+                    "attribue" => count(DAO::getAll("Ticket", "idUser=" . $currentUser->getId() . " and idStatut=2")),
+                    "resolu" => count(DAO::getAll("Ticket", "idUser=" . $currentUser->getId() . " and idStatut=4"))
+                ],
+                "articles" => DAO::getAll("FAQ","1 order by dateCreation DESC LIMIT 3")
+            ));
+        }
         else
             $this->messageInfo("Vous devez être connecté pour accéder à cette page.",0,false);
 
