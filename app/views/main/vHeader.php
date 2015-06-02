@@ -33,6 +33,7 @@
 						href="<?php echo $config["siteUrl"]?>tickets">Tickets</a></li>
 					<li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
 						href="<?php echo $config["siteUrl"]?>faqs">Foire aux questions</a></li>
+                    <li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3' href="<?php echo $config["siteUrl"]?>defaultC/test">Page de test</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

@@ -1,14 +1,15 @@
-<header>
-    <section class="clearfix">
-        <div style="float:left;"><h2><?php echo $ticket->getTitre(); ?></h2></div>
+<header class="panel panel-primary">
+    <section class="panel-heading clearfix">
+        <div class="panel-title" style="float:left;"><h2><?php echo $ticket->getTitre(); ?></h2></div>
         <div style="float:right;"><h3><?php echo $ticket->getCategorie()->getLibelle(); ?></h3></div>
     </section>
-    <section><?php echo $ticket->getDescription(); ?></section>
-    <br />
-    <section>
+    <section class="panel-body">
+        <?php echo nl2br($ticket->getDescription()); ?>
+        <br /><br />
         <small>
             Posté par <?php echo $ticket->getUser(); ?> le <?php echo (new DateTime($ticket->getDateCreation()))->format('d/m/Y à H:i:s'); ?>
-            <br /><?php echo $ticket->getStatut(); ?>
+            <br />
+            <?php echo $ticket->getStatut(); ?>
         </small>
     </section>
 </header>
@@ -33,7 +34,7 @@
                         <input type="submit" class="btn btn-default" value="Modifier le message" /> <input type="button" class="btn btn-default" onclick="$(this).parent().parent().hide();$('div').prev('.showContenu:last').show();" value="Annuler" />
                     </form>
                 </div>
-            <?php if($msg->getUser() == $currentUser && $msg == end($messages)) { ?>
+            <?php if($msg->getUser() == $currentUser && $msg == end($messages) && $ticket->getStatut()->getId() < 5) { ?>
                 <div style="float:right;">
                     <br />
                     <a class="btn btn-primary btn-xs" href="javascript:void(0);" onclick="$('div').prev('.showContenu:last').hide();$('div').prev('.editContenu:last').show();" style="width:150px;">Éditer</a>

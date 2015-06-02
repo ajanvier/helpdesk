@@ -40,8 +40,11 @@ class Tickets extends \_DefaultController {
             }
             echo "</tbody>";
             echo "</table>";
-            echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+            if(!Auth::isAdmin())
+                echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
         }
+        else
+            $this->messageDisconnected();
     }
 
     private static function getTypes() {
@@ -84,7 +87,7 @@ class Tickets extends \_DefaultController {
                 ));
             }
             elseif(!empty($id) && !Auth::isAdmin()) {
-                $this->messageDanger("Vous devez être administrateur pour accéder à cette page.");
+                $this->messageNotAdmin();
             }
             else {
                 $categories = DAO::getAll("Categorie");
@@ -96,7 +99,7 @@ class Tickets extends \_DefaultController {
             }
         }
         else
-            $this->messageDanger("Vous devez être connecté pour accéder à cette page.");
+            $this->messageDisconnected();
     }
 
     public function add($id=NULL) {
@@ -120,7 +123,7 @@ class Tickets extends \_DefaultController {
                 $this->messageWarning("Vous devez remplir tous les champs pour créer un ticket !");
         }
         else
-            $this->messageDanger("Vous devez être connecté pour accéder à cette page.");
+            $this->messageDisconnected();
     }
 
     public function edit($id) {
@@ -142,6 +145,6 @@ class Tickets extends \_DefaultController {
                 $this->messageWarning("Vous devez remplir tous les champs pour éditer ce ticket !");
         }
         else
-            $this->messageDanger("Vous devez être administrateur pour accéder à cette page.");
+            $this->messageNotAdmin();
     }
 }

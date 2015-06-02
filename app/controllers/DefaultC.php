@@ -13,7 +13,16 @@ class DefaultC extends \BaseController {
 	 */
 	public function index() {
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-		$this->loadView("main/vDefault");
+        echo "<div class='container'>";
+
+        if(Auth::isAdmin())
+		    $this->loadView("main/vAdmin");
+        elseif(Auth::isAuth())
+            $this->loadView("main/vUser");
+        else
+            $this->messageInfo("Vous devez être connecté pour accéder à cette page.",0,false);
+
+        echo "</div>";
 		$this->loadView("main/vFooter");
 	}
 
@@ -67,4 +76,5 @@ class DefaultC extends \BaseController {
 		echo "</div>";
 		$this->loadView("main/vFooter");
 	}
+
 }

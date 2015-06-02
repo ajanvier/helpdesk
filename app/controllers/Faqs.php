@@ -42,7 +42,8 @@ class Faqs extends \_DefaultController {
                 echo "</table>";
             }
         }
-        echo "<a class='btn btn-primary' href='" . $config["siteUrl"] . $baseHref . "/frm'>Ajouter...</a>";
+        if(Auth::isAdmin())
+            echo "<a class='btn btn-primary' href='" . $config["siteUrl"] . $baseHref . "/frm'>Ajouter...</a>";
     }
 
     public function article($id=null) {
