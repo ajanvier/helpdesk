@@ -89,8 +89,27 @@ class Faqs extends \_DefaultController {
             $this->messageDisconnected();
     }
 
-    public function frm($id=null) {
+    public function frm($id=NULL) {
+        if(Auth::isAdmin()) {
+            if(!empty($id)) {
+                $article = DAO::getOne($this->model, $id[0]);
+                $categories = DAO::getAll("Categorie");
 
+                $this->loadView("faq/vEdit", array(
+                    "categories" => $categories,
+                    "article" => $article
+                ));
+            }
+            else {
+                $categories = DAO::getAll("Categorie");
+                $this->loadView("faq/vAdd", array(
+                    "categories" => $categories,
+                    "currentUser" => Auth::getUser()
+                ));
+            }
+        }
+        else
+            $this->messageNotAdmin();
     }
 
 	/* (non-PHPdoc)
@@ -99,7 +118,7 @@ class Faqs extends \_DefaultController {
 	protected function setValuesToObject(&$object) {
 		parent::setValuesToObject($object);
 		$object->setUser(Auth::getUser());
-		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
+		$categorie=DAO::getOne("Categorie", $_POST["categorie"]);
 		$object->setCategorie($categorie);
 	}
 }

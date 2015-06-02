@@ -25,7 +25,7 @@
             <table class="table table-striped">
                 <?php foreach($plusPopulaires as $article) { ?>
                     <tr>
-                        <td><a href="<?php echo $baseHref . "/frm/" . $article->getId(); ?>"><?php echo $article->getTitre(); ?></a></td>
+                        <td><a href="<?php echo $config["siteUrl"] . $baseHref . "/article/" . $article->getId(); ?>"><?php echo $article->getTitre(); ?></a></td>
                         <td style="text-align:right;"><?php echo $article->getPopularity(); ?></td>
                     </tr>
                 <?php } ?>
@@ -40,7 +40,7 @@
             <table class="table table-striped">
                 <?php foreach($plusRecents as $article) { ?>
                     <tr>
-                        <td><a href="<?php echo $baseHref . "/frm/" . $article->getId(); ?>"><?php echo $article->getTitre(); ?></a></td>
+                        <td><a href="<?php echo $config["siteUrl"] . $baseHref . "/article/" . $article->getId(); ?>"><?php echo $article->getTitre(); ?></a></td>
                         <td style="text-align:right;"><?php echo (new DateTime($article->getDateCreation()))->format('d/m/Y H:i:s'); ?></td>
                     </tr>
                 <?php } ?>
