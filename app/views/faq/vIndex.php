@@ -11,10 +11,11 @@
             <div class="panel-title">Sujets classés par catégories</div>
         </div>
         <div class="panel-body">
-            <?php echo $listeSujets; ?>
             <?php if(Auth::isAdmin()) { ?>
                 <a class="btn btn-primary" href="<?php echo $config["siteUrl"] . $baseHref; ?>/frm">Ajouter un article</a>
+                <br /><br />
             <?php } ?>
+            <?php echo $listeSujets; ?>
         </div>
     </div>
     <div class="panel panel-primary" id="populaires">
