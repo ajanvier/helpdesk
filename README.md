@@ -15,8 +15,6 @@ Vous avez donc décidé de réaliser une application Web permettant de gérer le
 
 # Tâches à effectuer
 
-Sur cette plateforme, nous avons du réaliser :
-
 ## Le système de tickets
 
 Lorsqu'un utilisateur souhaite contacter l'administrateur (pour un problème ou une question), il peut envoyer un ticket et y poster des messages.
@@ -45,7 +43,8 @@ Pour installer l'application Helpdesk, il vous faut :
 * Un serveur MySQL
 * Un client Git (de préférence)
 
-Récupérez les fichiers du projet en faisant un 
+Récupérez les fichiers du projet en faisant un
+
     git clone https://github.com/ajanvier/helpdesk.git
     
 Ou en [téléchargeant l'archive ZIP](https://github.com/ajanvier/helpdesk/archive/master.zip)
