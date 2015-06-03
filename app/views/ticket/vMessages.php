@@ -26,7 +26,7 @@
             <td data-content="<?php echo (new DateTime($msg->getDate()))->format('d/m/Y - H:i:s'); ?>" data-container="body" data-toggle="popover" data-placement="bottom">
                 <strong><?php echo $msg->getUser(); ?></strong>
                 <br /><br />
-                <div class="showContenu"><?php echo $msg->getContenu(); ?></div>
+                <div class="showContenu"><?php echo nl2br($msg->getContenu()); ?></div>
                 <div style="display: none;" class="editContenu">
                     <form method="post" action="messages/edit/<?php echo $msg->getId(); ?>">
                         <textarea name="contenu" class="form-control"><?php echo $msg->getContenu(); ?></textarea>

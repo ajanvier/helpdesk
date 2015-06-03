@@ -55,7 +55,7 @@ class Tickets extends \_DefaultController {
 
 	public function messages($id) {
         if(Auth::isAuth()) {
-            $ticket = DAO::getOne($this->model, $id[0]);
+            $ticket = $this->getInstance($id);
             if (empty($ticket))
                 $this->messageDanger("Ce ticket n'existe pas.");
             elseif (!Auth::isAdmin() && $ticket->getUser() != Auth::getUser())
@@ -80,7 +80,7 @@ class Tickets extends \_DefaultController {
     public function frm($id=NULL) {
         if(Auth::isAuth()) {
             if(!empty($id) && Auth::isAdmin()) {
-                $ticket = DAO::getOne($this->model, $id[0]);
+                $ticket = $this->getInstance($id);
                 $categories = DAO::getAll("Categorie");
                 $statuts = DAO::getAll("Statut");
 
@@ -122,7 +122,7 @@ class Tickets extends \_DefaultController {
 
                 DAO::insert($ticket);
 
-                $this->index("Le nouveau ticket a bien été créé");
+                $this->forward($this->title, "index", "Le nouveau ticket a bien été créé !");
             }
             else
                 $this->messageWarning("Vous devez remplir tous les champs pour créer un ticket !");
@@ -134,7 +134,7 @@ class Tickets extends \_DefaultController {
     public function edit($id) {
         if(Auth::isAuth() && Auth::isAdmin()) {
             if(!empty($_POST['type']) && !empty($_POST['categorie']) && !empty($_POST['titre']) && !empty($_POST['description']) && !empty($_POST['statut'])) {
-                $ticket = DAO::getOne($this->model, $id[0]);
+                $ticket = $this->getInstance($id);
 
                 $ticket->setStatut(DAO::getOne("Statut",$_POST['statut']));
                 $ticket->setType($_POST['type']);
@@ -144,7 +144,7 @@ class Tickets extends \_DefaultController {
 
                 DAO::update($ticket);
 
-                $this->messageSuccess("Le ticket a bien été modifié !");
+                $this->forward($this->title, "index", "Le ticket a bien été modifié !");
             }
             else
                 $this->messageWarning("Vous devez remplir tous les champs pour éditer ce ticket !");
