@@ -27,7 +27,7 @@
                 <a class="btn btn-info" href="<?php echo $config['siteUrl']; ?>faqs/frm">Ajouter un article</a>
                 <a class="btn btn-info" href="<?php echo $config['siteUrl']; ?>faqs/frm/1">Editer l'article n°1</a>
             <?php } ?>
-            <a class="btn btn-info" href="<?php echo $config['siteUrl']; ?>faqs/article/1">Consulter le ticket n°1</a>
+            <a class="btn btn-info" href="<?php echo $config['siteUrl']; ?>faqs/article/1">Consulter l'article n°1</a>
         </div>
     </div>
     <div class="panel panel-primary">
