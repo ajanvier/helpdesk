@@ -122,7 +122,7 @@ class Tickets extends \_DefaultController {
 
                 DAO::insert($ticket);
 
-                $this->messageSuccess("Le nouveau ticket a bien été crée !");
+                $this->index("Le nouveau ticket a bien été créé");
             }
             else
                 $this->messageWarning("Vous devez remplir tous les champs pour créer un ticket !");
